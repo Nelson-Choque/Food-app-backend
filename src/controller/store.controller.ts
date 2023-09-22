@@ -4,7 +4,7 @@ import { Food } from "../entity/Food";
 import { getDatabaseConnection } from "../db/db";
 import { DataSource, DeleteResult, UpdateResult } from "typeorm";
 import { Store } from "../entity/Store";
-import { StoreService } from "../services/store.services";
+import { StoreService } from "../services/store.service";
 
 const storeService = new StoreService();
 

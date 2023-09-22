@@ -23,6 +23,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/food", routerFood);
+app.use("/category", routerCategory);
 app.use("/store", routerStore);
 app.use("/store2", routerStore);
 app.use("/main", mainRouter);

@@ -7,7 +7,6 @@ import {
   update,
 } from "../controller/store.controller";
 
-console.log("router food");
 
 const router = Router();
 

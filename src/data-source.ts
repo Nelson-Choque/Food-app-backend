@@ -5,7 +5,6 @@ import { Food } from "./entity/Food";
 import { Store } from "./entity/Store";
 import { Category } from "./entity/Category";
 
-console.log("ejecutandome");
 export const AppDataSource = new DataSource({
   type: "mysql",
   host: "localhost",

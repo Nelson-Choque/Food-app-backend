@@ -6,6 +6,7 @@ import {
   remove,
   update,
 } from "../controller/category.controller";
+import { CategoryService } from "../services/category.service";
 
 const router = Router();
 
