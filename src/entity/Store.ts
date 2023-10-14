@@ -18,6 +18,9 @@ export class Store {
   @Column()
   name: string;
 
-  @OneToMany((type) => Food, (food) => food.store)
+  @OneToMany((type) => Food, (food) => food.store, { eager: true })
   foods: Food[];
+
+  @OneToMany((type) => Category, (category) => category.store, { eager: true })
+  categories: Category[];
 }

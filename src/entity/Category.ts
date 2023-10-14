@@ -1,5 +1,12 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { Food } from "./Food";
+import { Store } from "./Store";
 
 @Entity()
 export class Category {
@@ -7,4 +14,7 @@ export class Category {
   id: number;
   @Column()
   name: string;
+
+  @ManyToOne((category) => Store)
+  store: Store;
 }

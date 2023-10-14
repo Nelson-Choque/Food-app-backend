@@ -32,17 +32,15 @@ export class StoreService {
     return store;
   }
 
-  async updateStore(updateStore: Store, id: number): Promise<UpdateResult> {
-    const store: Store = await this.repository.findOne({ where: { id: id } });
+  async updateStore(updateStore: Store, id: number): Promise<Store> {
+    const store: Store = await this.finByIdStore(id);
 
     if (!store) {
       return;
     }
+    updateStore.id = id;
 
-    const storeUpdated: UpdateResult = await this.repository.update(
-      { id: id },
-      updateStore
-    );
+    const storeUpdated: Store = await this.repository.save(updateStore);
 
     return storeUpdated;
   }

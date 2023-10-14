@@ -16,11 +16,13 @@ export class Food {
   @Column()
   name: string;
   @Column()
+  brand: string;
+  @Column()
   description: string;
   @Column()
   price: number;
 
-  @ManyToOne((type) => Store, (store) => store.foods, { eager: true })
+  @ManyToOne((type) => Store, (store) => store.foods)
   store: Store;
 
   @ManyToMany((type) => Category, { eager: true })
