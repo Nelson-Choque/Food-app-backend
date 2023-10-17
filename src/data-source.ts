@@ -4,17 +4,18 @@ import { User } from "./entity/User";
 import { Food } from "./entity/Food";
 import { Store } from "./entity/Store";
 import { Category } from "./entity/Category";
+import { Rol } from "./entity/rol";
 
 export const AppDataSource = new DataSource({
   type: "mysql",
   host: "localhost",
   port: 3306,
   username: "root",
-  password: "1234",
-  database: "db_food3",
+  password: "root",
+  database: "db_ecomerce3",
   synchronize: true,
   logging: false,
-  entities: [Food, Store, Category, User],
+  entities: [Food, Store, Category, User,Rol],
   migrations: ["src/migration/**/*.{ts,js}"],
   subscribers: [],
 });

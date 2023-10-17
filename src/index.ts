@@ -10,6 +10,8 @@ import routerCategory from "./routes/category.routes";
 import mainRouter from "./main";
 import { CustomError } from "./errors/CustomError";
 import { errorHandler } from "./middelware/errorHandler";
+import routerRol from "./routes/roles.routes";
+import routerUser from "./routes/users.routes";
 
 dotenv.config();
 
@@ -29,4 +31,6 @@ app.use("/category", routerCategory);
 app.use("/store", routerStore);
 app.use("/store2", routerStore);
 app.use("/main", mainRouter);
+app.use("/rol",routerRol) ;
+app.use("/user", routerUser);
 app.use("*", errorHandler);
