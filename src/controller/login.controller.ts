@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { loginService } from "../services/login.service";
 import bcrypt from 'bcrypt';
 
+import jwt from "jsonwebtoken";
 export default class LoginController{
     constructor() {}
     public async login(req: Request, res: Response, next:NextFunction){
@@ -19,7 +20,20 @@ export default class LoginController{
                     bcrypt.compare(reqBody.password, pass).then((emp) =>{
                         console.log("Comparador: "+emp)
                         if(emp){
-                            res.status(200).send('Bienvenido')
+                            const token = jwt.sign({
+                                id: resultado?.id,
+                                firstname: resultado?.firstName,
+                                lastname: resultado?.lastName,
+                                age: resultado?.age,
+                                username: resultado?.username,
+                                password: resultado?.password,
+                                state : resultado?.state,
+                                rol: resultado?.rols.idrol
+                            },
+                            "pepe"
+                            );
+                            console.log(token);
+                            return res.json({token: token})
                         }else{
                             return res.status(400).send('Contraseña incorrecta')
                         }
