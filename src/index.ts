@@ -26,11 +26,9 @@ app.listen(PORT, () =>
 app.use(express.json());
 app.use(cors());
 
-app.use("/food", routerFood);
+app.use("/product", routerFood);
 app.use("/category", routerCategory);
 app.use("/store", routerStore);
-app.use("/store2", routerStore);
-app.use("/main", mainRouter);
-app.use("/rol",routerRol) ;
+app.use("/rol", routerRol);
 app.use("/user", routerUser);
 app.use("*", errorHandler);

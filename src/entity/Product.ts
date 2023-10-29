@@ -10,7 +10,7 @@ import { Category } from "./Category";
 import { Store } from "./Store";
 
 @Entity()
-export class Food {
+export class Product {
   @PrimaryGeneratedColumn()
   id: number;
   @Column()
@@ -22,10 +22,10 @@ export class Food {
   @Column()
   price: number;
 
-  @ManyToOne((type) => Store, (store) => store.foods)
+  @ManyToOne((type) => Store, (store) => store.products)
   store: Store;
 
   @ManyToMany((type) => Category, { eager: true })
-  @JoinTable({ name: "food_categorys" })
+  @JoinTable({ name: "product_categorys" })
   categories: Category[];
 }

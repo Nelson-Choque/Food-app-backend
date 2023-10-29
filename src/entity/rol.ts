@@ -1,18 +1,24 @@
-import { Column, Entity, IsNull, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  IsNull,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { User } from "./User";
 
 @Entity()
-export class Rol{
-@PrimaryGeneratedColumn()
-idrol : number;
+export class Rol {
+  @PrimaryGeneratedColumn()
+  idrol: number;
 
-@Column()
-name:   string;
+  @Column()
+  name: string;
 
-@Column({ nullable: true })
-state: boolean;
+  @Column({ nullable: true })
+  state: boolean;
 
-@OneToMany((type) =>User, (user) => user.rols, {eager: true})
-User: User[];
-
+  @OneToMany((type) => User, (user) => user.rols, { eager: true })
+  User: User[];
 }

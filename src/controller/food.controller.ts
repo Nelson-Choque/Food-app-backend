@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import { AppDataSource } from "../data-source";
-import { Food } from "../entity/Food";
+import { Product } from "../entity/Product";
 import { getDatabaseConnection } from "../db/db";
 import { DataSource, DeleteResult, UpdateResult } from "typeorm";
-import { FoodService } from "../services/food.service";
+import { ProductService } from "../services/product.service";
 import { CustomError } from "../errors/CustomError";
 
-const foodService: FoodService = new FoodService();
+const productService: ProductService = new ProductService();
 
 export const findAll = async (
   req: Request,
@@ -14,9 +14,9 @@ export const findAll = async (
   next: NextFunction
 ) => {
   try {
-    const foods: Food[] = await foodService.findAll();
+    const products: Product[] = await productService.findAll();
 
-    res.status(200).send(foods);
+    res.status(200).send(products);
   } catch (err) {
     next(err);
   }
@@ -29,9 +29,9 @@ export const finById = async (
 ) => {
   try {
     const id = parseInt(req.params.id);
-    const food: Food = await foodService.findById(id);
+    const product: Product = await productService.findById(id);
 
-    res.status(200).send(food);
+    res.status(200).send(product);
   } catch (err) {
     next(err);
   }
@@ -43,9 +43,9 @@ export const create = async (
   next: NextFunction
 ) => {
   try {
-    const food = await foodService.create(req.body);
+    const product = await productService.create(req.body);
 
-    res.status(201).send(food);
+    res.status(201).send(product);
   } catch (err) {
     next(err);
   }
@@ -59,9 +59,9 @@ export const update = async (
   try {
     const id: number = parseInt(req.params.id);
 
-    const updateFood = await foodService.update(req.body, id);
+    const updateProduct = await productService.update(req.body, id);
 
-    res.status(201).send(updateFood);
+    res.status(201).send(updateProduct);
   } catch (err) {
     next(err);
   }
@@ -75,9 +75,9 @@ export const remove = async (
   try {
     const id: number = parseInt(req.params.id);
 
-    const deleteFood: Food = await foodService.delete(id);
+    const deleteProduct: Product = await productService.delete(id);
 
-    res.status(201).send(deleteFood);
+    res.status(201).send(deleteProduct);
   } catch (err) {
     next(err);
   }

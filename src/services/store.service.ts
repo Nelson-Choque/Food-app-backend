@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../data-source";
-import { Food } from "../entity/Food";
+import { Product } from "../entity/Product";
 import { getDatabaseConnection } from "../db/db";
 import { DataSource, DeleteResult, Repository, UpdateResult } from "typeorm";
 import { Store } from "../entity/Store";
@@ -15,12 +15,46 @@ export class StoreService {
   }
 
   async getStores(): Promise<Store[]> {
-    const stores: Store[] = await this.repository.find();
+    const stores: Store[] = await this.repository
+      .createQueryBuilder("s")
+      .select([
+        "s.id",
+        "s.name",
+        "s.url",
+        "s.color",
+        "category.id",
+        "category.name",
+        "product.id",
+        "product.name",
+        "product.description",
+        "product.brand",
+      ])
+      .leftJoin("s.categories", "category")
+      .leftJoin("s.products", "product")
+      .getMany();
     return stores;
   }
 
   async finByIdStore(id: number): Promise<Store> {
-    const store: Store = await this.repository.findOne({ where: { id: id } });
+    const store: Store = await this.repository
+      .createQueryBuilder("s")
+      .select([
+        "s.id",
+        "s.name",
+        "s.url",
+        "s.color",
+        "category.id",
+        "category.name",
+        "product.id",
+        "product.name",
+        "product.price",
+        "product.description",
+        "product.brand",
+      ])
+      .leftJoin("s.categories", "category")
+      .leftJoin("s.products", "product")
+      .where("s.id = :id", { id: id })
+      .getOne();
 
     return store;
   }

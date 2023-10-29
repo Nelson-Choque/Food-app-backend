@@ -10,7 +10,11 @@ export class CategoryService {
   }
 
   async findAll(): Promise<Category[]> {
-    const categories: Category[] = await this.repository.find();
+    const categories: Category[] = await this.repository
+      .createQueryBuilder("c")
+      .select(["c.name", "c.id", "store.id"])
+      .leftJoin("c.store", "store")
+      .getMany();
 
     return categories;
   }

@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Category } from "./Category";
-import { Food } from "./Food";
+import { Product } from "./Product";
 
 @Entity()
 export class Store {
@@ -18,8 +18,14 @@ export class Store {
   @Column()
   name: string;
 
-  @OneToMany((type) => Food, (food) => food.store, { eager: true })
-  foods: Food[];
+  @Column()
+  url: string;
+
+  @Column()
+  color: string;
+
+  @OneToMany((type) => Product, (product) => product.store, { eager: true })
+  products: Product[];
 
   @OneToMany((type) => Category, (category) => category.store, { eager: true })
   categories: Category[];

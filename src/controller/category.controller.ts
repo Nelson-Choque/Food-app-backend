@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../data-source";
-import { Food } from "../entity/Food";
 import { getDatabaseConnection } from "../db/db";
 import { DataSource, DeleteResult, UpdateResult } from "typeorm";
 import { Category } from "../entity/Category";

@@ -5,7 +5,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Food } from "./Food";
+import { Product } from "./Product";
 import { Store } from "./Store";
 
 @Entity()
@@ -15,6 +15,6 @@ export class Category {
   @Column()
   name: string;
 
-  @ManyToOne((category) => Store)
+  @ManyToOne((type) => Store, (store) => store.categories)
   store: Store;
 }
