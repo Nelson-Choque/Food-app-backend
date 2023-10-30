@@ -20,7 +20,7 @@ export const AppDataSource = new DataSource({
   synchronize: true,
   logging: false,
   entities: [Product, Store, Category, User, Rol],
-  migrations: ["src/migration/**/*.{ts,js}"],
+  migrations: ["public/migration/**/*.{ts,js}"],
   subscribers: [],
   // ssl: true,
   // url: "postgres://root:XLzKglrkvx7acj8VSCNFtxoY43bQ8tmL@dpg-ckrv1l85vl2c73bsn730-a.oregon-postgres.render.com/db_mulltienda",
