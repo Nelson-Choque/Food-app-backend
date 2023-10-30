@@ -7,3 +7,4 @@ temp/
 .env
 src/migration/
 dist/
+.env.local
