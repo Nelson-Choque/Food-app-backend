@@ -4,7 +4,9 @@ node_modules/
 build/
 tmp/
 temp/
-.env
 src/migration/
 dist/
+
+.env
 .env.local
+env/

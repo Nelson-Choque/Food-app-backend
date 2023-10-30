@@ -13,7 +13,7 @@ import { errorHandler } from "./middelware/errorHandler";
 import routerRol from "./routes/roles.routes";
 import routerUser from "./routes/users.routes";
 
-dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
+dotenv.config({ path: `./env/.env` });
 
 const app: Express = express();
 
