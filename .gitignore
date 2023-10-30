@@ -6,4 +6,4 @@ tmp/
 temp/
 .env
 src/migration/
-public/
+dist/

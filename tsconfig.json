@@ -7,7 +7,7 @@
       "target": "ES2015",
       "module": "commonjs",
       "moduleResolution": "node",
-      "outDir": "./public",
+      "outDir": "./dist",
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
       "sourceMap": true,

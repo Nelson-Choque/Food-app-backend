@@ -22,6 +22,9 @@ export class Product {
   @Column()
   price: number;
 
+  @Column({ nullable: true })
+  imgUrl: string;
+
   @ManyToOne((type) => Store, (store) => store.products)
   store: Store;
 

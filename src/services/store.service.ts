@@ -28,6 +28,7 @@ export class StoreService {
         "product.name",
         "product.description",
         "product.brand",
+        "product.imgUrl",
       ])
       .leftJoin("s.categories", "category")
       .leftJoin("s.products", "product")
@@ -50,6 +51,7 @@ export class StoreService {
         "product.price",
         "product.description",
         "product.brand",
+        "product.imgUrl",
       ])
       .leftJoin("s.categories", "category")
       .leftJoin("s.products", "product")
