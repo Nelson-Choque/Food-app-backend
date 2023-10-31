@@ -7,7 +7,7 @@ import { Category } from "./entity/Category";
 import { Rol } from "./entity/rol";
 import dotenv from "dotenv";
 
-dotenv.config({ path: "./env/.env" });
+dotenv.config({ path: "./env/.env.local" });
 
 export const AppDataSource = new DataSource({
   type: "postgres",
