@@ -17,22 +17,10 @@ export class StoreService {
   async getStores(): Promise<Store[]> {
     const stores: Store[] = await this.repository
       .createQueryBuilder("s")
-      .select([
-        "s.id",
-        "s.name",
-        "s.url",
-        "s.color",
-        "category.id",
-        "category.name",
-        "product.id",
-        "product.name",
-        "product.description",
-        "product.brand",
-        "product.imgUrl",
-        "product.price",
-      ])
+      .select(["s", "category", "product"])
       .leftJoin("s.categories", "category")
       .leftJoin("s.products", "product")
+      .addOrderBy("s.id", "ASC")
       .getMany();
     return stores;
   }
@@ -40,20 +28,7 @@ export class StoreService {
   async finByIdStore(id: number): Promise<Store> {
     const store: Store = await this.repository
       .createQueryBuilder("s")
-      .select([
-        "s.id",
-        "s.name",
-        "s.url",
-        "s.color",
-        "category.id",
-        "category.name",
-        "product.id",
-        "product.name",
-        "product.price",
-        "product.description",
-        "product.brand",
-        "product.imgUrl",
-      ])
+      .select(["s", "category", "product"])
       .leftJoin("s.categories", "category")
       .leftJoin("s.products", "product")
       .where("s.id = :id", { id: id })
@@ -64,6 +39,7 @@ export class StoreService {
 
   async createStore(newStore: Store): Promise<Store> {
     const storeCreated: Store = await this.repository.create(newStore);
+
     const store: Store = await this.repository.save(storeCreated);
 
     return store;

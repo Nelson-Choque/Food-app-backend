@@ -24,6 +24,7 @@ export const create = async (req: Request, res: Response) => {
 };
 
 export const update = async (req: Request, res: Response) => {
+  console.log(req.body);
   const id: number = parseInt(req.params.id);
 
   const storeUpdated = await storeService.updateStore(req.body, id);

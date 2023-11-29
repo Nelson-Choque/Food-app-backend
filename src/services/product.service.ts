@@ -1,4 +1,4 @@
-import { Repository } from "typeorm";
+import { InsertResult, Repository, UpdateResult } from "typeorm";
 import { Product } from "../entity/Product";
 import { AppDataSource } from "../data-source";
 import { CustomError } from "../errors/CustomError";
@@ -11,7 +11,11 @@ export class ProductService {
   }
 
   async findAll(): Promise<Product[]> {
-    const products: Product[] = await this.repository.find();
+    const products: Product[] = await this.repository
+      .createQueryBuilder("product")
+      .select(["product", "store.id"])
+      .leftJoin("product.store", "store")
+      .getMany();
 
     if (products.length === 0) {
       throw new CustomError(
@@ -36,13 +40,22 @@ export class ProductService {
     return product;
   }
 
-  async create(newProduct: Product): Promise<Product> {
-    console.log("toy aqui2");
-
-    const product: Product = await this.repository.create(newProduct);
+  async create(newProduct: Product): Promise<InsertResult> {
+    const product: InsertResult = await this.repository
+      .createQueryBuilder()
+      .insert()
+      .into(Product)
+      .values({
+        brand: newProduct.brand,
+        name: newProduct.name,
+        description: newProduct.description,
+        price: newProduct.price,
+        imgUrl: newProduct.imgUrl,
+        store: newProduct.store,
+      })
+      .execute();
 
     if (!product) {
-      console.log("toy aqui");
       throw new CustomError(
         "No se pudo crear la comida",
         "product not created",
@@ -50,9 +63,7 @@ export class ProductService {
       );
     }
 
-    const productCreated = await this.repository.save(product);
-
-    return productCreated;
+    return product;
   }
 
   async update(updateProduct: Product, id: number) {
@@ -62,9 +73,19 @@ export class ProductService {
       return;
     }
 
-    updateProduct.id = id;
-
-    const productUpdated: Product = await this.repository.save(updateProduct);
+    const productUpdated: UpdateResult = await this.repository
+      .createQueryBuilder()
+      .update(Product)
+      .set({
+        name: updateProduct.name,
+        description: updateProduct.description,
+        brand: updateProduct.brand,
+        price: updateProduct.price,
+        store: updateProduct.store,
+        imgUrl: updateProduct.imgUrl,
+      })
+      .where("id =:id", { id: id })
+      .execute();
 
     return productUpdated;
   }
@@ -76,7 +97,12 @@ export class ProductService {
       return;
     }
 
-    const productDeleted = await this.repository.remove(product);
+    const productDeleted = await this.repository
+      .createQueryBuilder()
+      .delete()
+      .from(Product)
+      .where("id=:id", { id: id })
+      .execute();
     return productDeleted;
   }
 }

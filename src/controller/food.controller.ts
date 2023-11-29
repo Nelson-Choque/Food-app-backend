@@ -1,10 +1,25 @@
 import { NextFunction, Request, Response } from "express";
-import { AppDataSource } from "../data-source";
 import { Product } from "../entity/Product";
-import { getDatabaseConnection } from "../db/db";
-import { DataSource, DeleteResult, UpdateResult } from "typeorm";
+import { DeleteResult } from "typeorm";
 import { ProductService } from "../services/product.service";
-import { CustomError } from "../errors/CustomError";
+import { v2 as cloudinary } from "cloudinary";
+import { File } from "multer";
+import { error } from "console";
+import { Store } from "../entity/Store";
+
+cloudinary.config({
+  api_key: "273477297878473",
+  cloud_name: "dsczc26rm",
+  api_secret: "0mWYD-tlmlkUMmspOFbjzI5tbnM",
+});
+
+declare global {
+  namespace Express {
+    interface Request {
+      files: File;
+    }
+  }
+}
 
 const productService: ProductService = new ProductService();
 
@@ -43,9 +58,46 @@ export const create = async (
   next: NextFunction
 ) => {
   try {
-    const product = await productService.create(req.body);
+    //* get buffer of FormData and properties of body
+    const imageBuffer: Buffer = req.files[0].buffer;
+    const { price, name, description, storeId, brand } = req.body;
 
-    res.status(201).send(product);
+    //*create variable to storage url cloudinary
+    let imageUrl: string = "";
+
+    //* save db
+    const newProduct = new Product();
+    const newStore = new Store();
+
+    newStore.id = storeId;
+    newProduct.name = name;
+    newProduct.description = description;
+    newProduct.brand = brand;
+    newProduct.price = price;
+    newProduct.store = newStore;
+
+    //* function upload cloudinary
+
+    const responseCloudinary = await cloudinary.uploader.upload_stream(
+      { folder: "productos" },
+      async (err, result) => {
+        if (err) {
+          console.log(err);
+        }
+        //* set imgUrl
+
+        newProduct.imgUrl = result.secure_url;
+
+        const productCreated = await productService.create(newProduct);
+      }
+    );
+
+    //* send buffer image
+
+    responseCloudinary.end(imageBuffer);
+    // console.log(imageUrl + "abc");
+
+    res.status(201).send("hola");
   } catch (err) {
     next(err);
   }
@@ -75,7 +127,7 @@ export const remove = async (
   try {
     const id: number = parseInt(req.params.id);
 
-    const deleteProduct: Product = await productService.delete(id);
+    const deleteProduct: DeleteResult = await productService.delete(id);
 
     res.status(201).send(deleteProduct);
   } catch (err) {

@@ -19,18 +19,18 @@ export class Store {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   url: string;
 
-  @Column()
+  @Column({ nullable: true })
   color: string;
 
-  @OneToMany((type) => User, (user) => user.store, { eager: true })
+  @OneToMany((type) => User, (user) => user.store)
   users: User[];
 
-  @OneToMany((type) => Product, (product) => product.store, { eager: true })
+  @OneToMany((type) => Product, (product) => product.store)
   products: Product[];
 
-  @OneToMany((type) => Category, (category) => category.store, { eager: true })
+  @OneToMany((type) => Category, (category) => category.store)
   categories: Category[];
 }
