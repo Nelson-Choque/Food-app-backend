@@ -23,6 +23,9 @@ export class Store {
   url: string;
 
   @Column({ nullable: true })
+  logo: string;
+
+  @Column({ nullable: true })
   color: string;
 
   @OneToMany((type) => User, (user) => user.store)
