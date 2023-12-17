@@ -20,6 +20,9 @@ export class Store {
   name: string;
 
   @Column({ nullable: true })
+  telefono: number;
+
+  @Column({ nullable: true })
   url: string;
 
   @Column({ nullable: true })

@@ -39,11 +39,11 @@ export const update = async (
 
   try {
     //* get buffer of FormData and properties of body
-    const imageBuffer: Buffer = req.files[0].buffer;
-    const { name, color } = req.body;
-
-    //*create variable to storage url cloudinary
-    let imageUrl: string = "";
+    let imageBuffer: Buffer | undefined;
+    if (req.files[0]) {
+      imageBuffer = req.files[0].buffer;
+    }
+    const { name, color, telefono } = req.body;
 
     //* save db
     const newStore = new Store();
@@ -51,28 +51,26 @@ export const update = async (
     newStore.id = idStore;
     newStore.name = name;
     newStore.color = color;
+    newStore.telefono = telefono;
 
     //* function upload cloudinary
 
-    const responseCloudinary = await cloudinary.uploader.upload_stream(
-      { folder: "productos" },
-      async (err, result) => {
-        if (err) {
-          console.log(err);
+    if (imageBuffer) {
+      const responseCloudinary = await cloudinary.uploader.upload_stream(
+        { folder: "productos" },
+        async (err, result) => {
+          if (err) {
+            console.log(err);
+          }
+          //* set imgUrl
+
+          newStore.logo = result.secure_url;
         }
-        //* set imgUrl
+      );
+      responseCloudinary.end(imageBuffer);
+    }
 
-        newStore.logo = result.secure_url;
-
-        const storeUpdated = await storeService.updateStore(newStore, idStore);
-      }
-    );
-
-    //* send buffer image
-
-    responseCloudinary.end(imageBuffer);
-    // console.log(imageUrl + "abc");
-
+    const storeUpdated = await storeService.updateStore(newStore, idStore);
     res.status(201).send("hola");
   } catch (err) {
     next(err);
