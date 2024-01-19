@@ -46,12 +46,15 @@ export const update = async (
     const { name, color, telefono } = req.body;
 
     //* save db
-    const newStore = new Store();
+    const newStore: Store = new Store();
 
     newStore.id = idStore;
     newStore.name = name;
     newStore.color = color;
-    newStore.telefono = telefono;
+    console.log({ telefono });
+    if (telefono && telefono !== "null") {
+      newStore.telefono = parseInt(telefono);
+    }
 
     //* function upload cloudinary
 
@@ -65,12 +68,13 @@ export const update = async (
           //* set imgUrl
 
           newStore.logo = result.secure_url;
+          await storeService.updateStore(newStore, idStore);
         }
       );
       responseCloudinary.end(imageBuffer);
+    } else {
+      const storeUpdated = await storeService.updateStore(newStore, idStore);
     }
-
-    const storeUpdated = await storeService.updateStore(newStore, idStore);
     res.status(201).send("hola");
   } catch (err) {
     next(err);
